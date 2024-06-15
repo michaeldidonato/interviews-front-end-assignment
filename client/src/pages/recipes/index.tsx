@@ -1,4 +1,4 @@
-import RecipesComponent from "@/page-components/recipes/RecipesComponent";
+import RecipesComponent from "@/page-components/recipes/components/RecipesComponent";
 import { Layout } from "@/page-components/shared/Layout";
 import PageContainer from "@/page-components/shared/PageContainer";
 import { NextPage } from "next";

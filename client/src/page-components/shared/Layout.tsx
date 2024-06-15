@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 import { createTheme } from "../../../src/lib/theme/index";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { DashboardNavbar } from "./DashboardNavbar";
+import { useLoadingContext } from "@/contexts/loading-context";
+import Spinner from "./Spinner";
 // import { DashboardNavbar } from "./dashboard-navbar";
 // import { DashboardSidebar } from "./dashboard-sidebar";
 
@@ -32,11 +34,13 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 
 export const Layout: FC<DashboardLayoutProps> = (props) => {
   const { children, themeMode } = props;
+  const { loading } = useLoadingContext();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   return (
     <>
+      {<Spinner loading={loading} />}
       <ThemeProvider
         theme={createTheme({
           direction: "ltr",

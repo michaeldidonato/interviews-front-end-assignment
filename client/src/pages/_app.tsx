@@ -1,3 +1,4 @@
+import { LoadingProvider } from "@/contexts/loading-context";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 
@@ -8,7 +9,13 @@ type EnhancedAppProps = AppProps & {
 const App = ({ Component, pageProps }: EnhancedAppProps) => {
   const getLayout = Component.getLayout ?? ((page: any) => page);
 
-  return <>{getLayout(<Component {...pageProps} />)}</>;
+  return (
+    <>
+      <LoadingProvider>
+        {getLayout(<Component {...pageProps} />)}
+      </LoadingProvider>
+    </>
+  );
 };
 
 export default App;
