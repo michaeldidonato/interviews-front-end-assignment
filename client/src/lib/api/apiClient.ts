@@ -1,6 +1,4 @@
-import { Recipe } from "@/page-components/recipes/types";
 import { config } from "./config";
-import srcFile from "../../../../server/uploads/Beef-Tacos.jpg";
 
 class ApiClient {
   constructor(private host: string) {}
@@ -16,6 +14,51 @@ class ApiClient {
 
     return {
       data,
+      error,
+    };
+  }
+
+  async getCuisines() {
+    const response = await fetch(`${this.host}/cuisines`, {
+      method: "GET",
+    });
+
+    const data = await response.json();
+
+    const error = response.status !== 200 ? data.error : null;
+
+    return {
+      dataCuisines: data,
+      error,
+    };
+  }
+
+  async getDiets() {
+    const response = await fetch(`${this.host}/diets`, {
+      method: "GET",
+    });
+
+    const data = await response.json();
+
+    const error = response.status !== 200 ? data.error : null;
+
+    return {
+      dataDiets: data,
+      error,
+    };
+  }
+
+  async getDifficulties() {
+    const response = await fetch(`${this.host}/difficulties`, {
+      method: "GET",
+    });
+
+    const data = await response.json();
+
+    const error = response.status !== 200 ? data.error : null;
+
+    return {
+      dataDifficulties: data,
       error,
     };
   }

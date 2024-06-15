@@ -1,36 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
-import srcFile from "../../../../server/uploads/Beef-Tacos.jpg";
 import Image from "next/image";
-import { useEffect, useMemo } from "react";
+import { useRecipeInfosContext } from "@/contexts/recipeinfos-context";
+import useFindRecipeInfo from "@/hooks/recipes/useFindRecipeInfo";
 
 type CardRecipeProps = {
-  title?: string;
-  ingredients?: string[];
-  urlImage?: string;
+  title: string;
+  ingredients: string[];
+  urlImage: string;
+  cuisineId: string;
+  difficultyId: string;
+  dietId: string;
 };
 
 const CardRecipe = ({
   title = "",
   ingredients,
-  urlImage = "",
+  urlImage,
+  cuisineId,
+  dietId,
+  difficultyId,
 }: CardRecipeProps) => {
-  // console.log({ url: `../../../../server${urlImage}` });
-  // const srcset = async () => {
-  //   const src = (await import(`../../../../server${urlImage}`)).default;
-
-  //   return src;
-  // };
-
-  // useEffect(() => {
-  //   const fetchImage = async () => {
-  //     const response = await srcset();
-
-  //     console.log({ response });
-  //   };
-
-  //   fetchImage();
-  // }, []);
+  const { detailRecipe } = useFindRecipeInfo({
+    cuisineId,
+    dietId,
+    difficultyId,
+  });
 
   return (
     <Paper elevation={3} sx={{ p: 2 }}>
@@ -40,23 +35,18 @@ const CardRecipe = ({
             component={"div"}
             sx={{
               position: "relative",
-              borderRadius: "50px",
-              width: 230,
-              height: 160,
+              width: 280,
+              height: 170,
             }}
           >
-            {/* <Image
-              alt="food"
-              src={``}
+            <Image
+              alt={title}
+              src={`http://localhost:8080${urlImage}`}
               fill
               style={{
-                borderRadius: "25px",
+                borderRadius: "12px",
                 objectFit: "cover",
               }}
-            /> */}
-            <img
-              alt="food"
-              src={`https://github.com/michaeldidonato/interviews-front-end-assignment/blob/ee46355931e7258171c269c0112b1c841bffc4c4/server${urlImage}`}
             />
           </Box>
         </Grid>
@@ -70,7 +60,7 @@ const CardRecipe = ({
             <Box>
               <Typography variant="body1">Diet:</Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Mediterran
+                {detailRecipe.dietName}
               </Typography>
             </Box>
 
@@ -95,13 +85,13 @@ const CardRecipe = ({
             <Box>
               <Typography variant="body1">Cuisine:</Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Italian
+                {detailRecipe.cuisineName}
               </Typography>
             </Box>
             <Box>
               <Typography variant="body1">Difficulty:</Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Medium
+                {detailRecipe.difficultyName}
               </Typography>
             </Box>
 

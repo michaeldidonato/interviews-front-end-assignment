@@ -22,6 +22,8 @@ import { apiClient } from "@/lib/api/apiClient";
 import { Grid } from "@mui/material";
 import { AppBar, DrawerHeader, Main, drawerWidth } from "./DrawerComponents";
 import useSpinning from "@/hooks/useSpinning";
+import { useForm } from "react-hook-form";
+import FormFilterRecipes from "./FormFilterRecipes";
 
 type RecipesComponent = {};
 
@@ -30,6 +32,7 @@ const RecipesComponent = ({}: RecipesComponent) => {
   const [open, setOpen] = useState(true);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
+  const { handleSubmit, control } = useForm();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +73,7 @@ const RecipesComponent = ({}: RecipesComponent) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Ricerca avanzata
+            Recipe Book
           </Typography>
         </Toolbar>
       </AppBar>
@@ -97,8 +100,17 @@ const RecipesComponent = ({}: RecipesComponent) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
+
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          <ListItem>
+            <Typography variant="h6">Filter Recipes</Typography>
+          </ListItem>
+
+          <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <FormFilterRecipes control={control} />
+          </form>
+
+          {/* {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -107,7 +119,7 @@ const RecipesComponent = ({}: RecipesComponent) => {
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
-          ))}
+          ))} */}
         </List>
         <Divider />
         <List>
@@ -128,12 +140,15 @@ const RecipesComponent = ({}: RecipesComponent) => {
 
         {recipes.length > 0 && (
           <Grid container spacing={4}>
-            {recipes?.map((recipe) => (
+            {recipes.map((recipe) => (
               <Grid key={recipe.id} item xs={12}>
                 <CardRecipe
                   title={recipe.name}
                   urlImage={recipe.image}
                   ingredients={recipe.ingredients}
+                  cuisineId={recipe.cuisineId}
+                  dietId={recipe.dietId}
+                  difficultyId={recipe.difficultyId}
                 />
               </Grid>
             ))}

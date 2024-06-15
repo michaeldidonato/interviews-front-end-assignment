@@ -44,7 +44,7 @@ export const Layout: FC<DashboardLayoutProps> = (props) => {
       <ThemeProvider
         theme={createTheme({
           direction: "ltr",
-          mode: "light",
+          mode: "dark",
         })}
       >
         <CssBaseline />

@@ -1,4 +1,5 @@
 import { LoadingProvider } from "@/contexts/loading-context";
+import { RecipeInfosProvider } from "@/contexts/recipeinfos-context";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 
@@ -12,7 +13,9 @@ const App = ({ Component, pageProps }: EnhancedAppProps) => {
   return (
     <>
       <LoadingProvider>
-        {getLayout(<Component {...pageProps} />)}
+        <RecipeInfosProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </RecipeInfosProvider>
       </LoadingProvider>
     </>
   );
