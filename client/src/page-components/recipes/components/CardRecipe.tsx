@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useRecipeInfosContext } from "@/contexts/recipeinfos-context";
-import useFindRecipeInfo from "@/hooks/recipes/useFindRecipeInfo";
+import useFindRecipeInfo from "../hooks/useFindRecipeInfo";
 
 type CardRecipeProps = {
   title: string;

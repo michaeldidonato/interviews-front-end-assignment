@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export type Recipe = {
   id: string;
   name: string;
@@ -9,4 +7,11 @@ export type Recipe = {
   dietId: string;
   difficultyId: string;
   image: string;
+};
+
+export type FormFilterRecipesType = {
+  search?: string;
+  diet?: string;
+  cuisine?: string;
+  difficulty?: string;
 };

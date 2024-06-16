@@ -16,14 +16,15 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import CardRecipe from "./CardRecipe";
-import { Recipe } from "../types";
-import { useEffect, useState } from "react";
+import { FormFilterRecipesType, Recipe } from "../types";
+import { useCallback, useEffect, useState } from "react";
 import { apiClient } from "@/lib/api/apiClient";
 import { Grid } from "@mui/material";
 import { AppBar, DrawerHeader, Main, drawerWidth } from "./DrawerComponents";
-import useSpinning from "@/hooks/useSpinning";
 import { useForm } from "react-hook-form";
 import FormFilterRecipes from "./FormFilterRecipes";
+import useFilterQueryRecipes from "../hooks/useFilterQueryRecipes";
+import useSpinning from "@/page-components/shared/hooks/useSpinning";
 
 type RecipesComponent = {};
 
@@ -31,14 +32,39 @@ const RecipesComponent = ({}: RecipesComponent) => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, setValue } = useForm<FormFilterRecipesType>({
+    defaultValues: {
+      cuisine: "",
+      diet: "",
+      difficulty: "",
+      search: "",
+    },
+  });
+
+  const { handleSave } = useFilterQueryRecipes();
+
+  const clearForm = useCallback(() => {
+    setValue("search", "");
+    setValue("cuisine", "");
+    setValue("diet", "");
+    setValue("difficulty", "");
+  }, [setValue]);
+
+  const onSave = useCallback(
+    (formData: FormFilterRecipesType) => {
+      const queryBuilder = handleSave(formData);
+      setQuery(queryBuilder);
+    },
+    [handleSave]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await apiClient.getRecipes();
+        const response = await apiClient.getRecipes(query);
         setRecipes(response.data);
       } catch (err) {
         console.error(err);
@@ -47,7 +73,7 @@ const RecipesComponent = ({}: RecipesComponent) => {
     };
 
     fetchData();
-  }, []);
+  }, [query]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -106,8 +132,8 @@ const RecipesComponent = ({}: RecipesComponent) => {
             <Typography variant="h6">Filter Recipes</Typography>
           </ListItem>
 
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
-            <FormFilterRecipes control={control} />
+          <form onSubmit={handleSubmit(onSave)}>
+            <FormFilterRecipes control={control} handleClearForm={clearForm} />
           </form>
 
           {/* {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (

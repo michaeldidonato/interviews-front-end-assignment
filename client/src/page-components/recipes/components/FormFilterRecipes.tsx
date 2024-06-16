@@ -1,19 +1,23 @@
 import { Info, useRecipeInfosContext } from "@/contexts/recipeinfos-context";
 import { Select } from "@/page-components/shared/input/Select";
 import { Text } from "@/page-components/shared/input/Text";
-import { Box, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import { useCallback } from "react";
 import { Control, FieldValues } from "react-hook-form";
 
 type FormFilterRecipesProps = {
   control: Control<FieldValues, any>;
+  handleClearForm: () => void;
 };
 
-const FormFilterRecipes = ({ control }: FormFilterRecipesProps) => {
+const FormFilterRecipes = ({
+  control,
+  handleClearForm,
+}: FormFilterRecipesProps) => {
   const { recipeInfos } = useRecipeInfosContext();
-  const getOptions = useCallback((array?: Info[]) => {
+  const getOptions = useCallback((infos?: Info[]) => {
     return (
-      array?.map((item) => ({
+      infos?.map((item) => ({
         title: item.name,
         value: item.id,
       })) ?? []
@@ -21,9 +25,10 @@ const FormFilterRecipes = ({ control }: FormFilterRecipesProps) => {
   }, []);
 
   return (
-    <Stack sx={{ mt: 4 }} alignItems={"center"} spacing={4}>
+    <Stack sx={{ mt: 4 }} alignItems={"center"} spacing={2}>
       <Text
         control={control}
+        placeholder="Cerca per nome"
         name="search"
         size="small"
         sx={{ width: "90%" }}
@@ -52,6 +57,26 @@ const FormFilterRecipes = ({ control }: FormFilterRecipesProps) => {
         options={getOptions(recipeInfos.difficulties)}
         sx={{ width: "90%" }}
       />
+
+      <Button
+        type="submit"
+        color="secondary"
+        variant="outlined"
+        size="small"
+        sx={{ width: "90%" }}
+      >
+        Cerca
+      </Button>
+
+      <Button
+        onClick={handleClearForm}
+        color="error"
+        variant="outlined"
+        size="small"
+        sx={{ width: "90%" }}
+      >
+        Annulla
+      </Button>
     </Stack>
   );
 };

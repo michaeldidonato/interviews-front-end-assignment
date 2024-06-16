@@ -1,5 +1,5 @@
+import { useLoadingContext } from "@/contexts/loading-context";
 import { useEffect } from "react";
-import { useLoadingContext } from "../contexts/loading-context";
 
 const useSpinning = (flags: boolean[]) => {
   const { setLoading } = useLoadingContext();
