@@ -135,40 +135,19 @@ const RecipesComponent = ({}: RecipesComponent) => {
           <form onSubmit={handleSubmit(onSave)}>
             <FormFilterRecipes control={control} handleClearForm={clearForm} />
           </form>
-
-          {/* {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))} */}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
         </List>
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
+        <Typography gutterBottom variant="h5">
+          Recipe List
+        </Typography>
 
         {recipes.length > 0 && (
           <Grid container spacing={4}>
             {recipes.map((recipe) => (
               <Grid key={recipe.id} item xs={12}>
                 <CardRecipe
+                  id={recipe.id}
                   title={recipe.name}
                   urlImage={recipe.image}
                   ingredients={recipe.ingredients}

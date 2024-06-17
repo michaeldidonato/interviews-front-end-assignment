@@ -2,8 +2,11 @@
 import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import useFindRecipeInfo from "../hooks/useFindRecipeInfo";
+import Link from "next/link";
+import { config } from "@/lib/api/config";
 
 type CardRecipeProps = {
+  id: string;
   title: string;
   ingredients: string[];
   urlImage: string;
@@ -13,6 +16,7 @@ type CardRecipeProps = {
 };
 
 const CardRecipe = ({
+  id,
   title = "",
   ingredients,
   urlImage,
@@ -40,7 +44,7 @@ const CardRecipe = ({
           >
             <Image
               alt={title}
-              src={`http://localhost:8080${urlImage}`}
+              src={`${config.host}${urlImage}`}
               fill
               style={{
                 borderRadius: "12px",
@@ -50,7 +54,7 @@ const CardRecipe = ({
           </Box>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Stack direction="column" alignItems="flex-start" spacing={2}>
             <Typography variant="h6" color="primary">
               {title}
@@ -95,7 +99,9 @@ const CardRecipe = ({
             </Box>
 
             <Box sx={{ maxWidth: "15rem" }}>
-              <Button variant="contained">View details</Button>
+              <Link href={`/recipes/${id}`} passHref>
+                <Button variant="contained">View details</Button>
+              </Link>
             </Box>
           </Stack>
         </Grid>

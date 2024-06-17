@@ -18,6 +18,36 @@ class ApiClient {
     };
   }
 
+  async getSingleRecipe(id: string) {
+    const response = await fetch(`${this.host}/recipes/${id}?_expand`, {
+      method: "GET",
+    });
+
+    const data = await response.json();
+
+    const error = response.status !== 200 ? data.error : null;
+
+    return {
+      data,
+      error,
+    };
+  }
+
+  async getRecipeComments(id: string) {
+    const response = await fetch(`${this.host}/recipes/${id}/comments`, {
+      method: "GET",
+    });
+
+    const data = await response.json();
+
+    const error = response.status !== 200 ? data.error : null;
+
+    return {
+      data,
+      error,
+    };
+  }
+
   async getCuisines() {
     const response = await fetch(`${this.host}/cuisines`, {
       method: "GET",

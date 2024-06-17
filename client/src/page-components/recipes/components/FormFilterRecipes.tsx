@@ -25,7 +25,7 @@ const FormFilterRecipes = ({
   }, []);
 
   return (
-    <Stack sx={{ mt: 4 }} alignItems={"center"} spacing={2}>
+    <Stack sx={{ mt: 2 }} alignItems={"center"} spacing={2}>
       <Text
         control={control}
         placeholder="Cerca per nome"
@@ -75,7 +75,7 @@ const FormFilterRecipes = ({
         size="small"
         sx={{ width: "90%" }}
       >
-        Annulla
+        Pulisci campi
       </Button>
     </Stack>
   );
