@@ -10,8 +10,6 @@ const Home: NextPage = () => {
       const response = await fetch("/api/recipe-infos");
 
       const data = await response.json();
-
-      console.log({ data });
     };
 
     fetchData();
