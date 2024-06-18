@@ -38,23 +38,27 @@ const CardRecipe = ({
             component={"div"}
             sx={{
               position: "relative",
-              width: 280,
-              height: 170,
             }}
           >
             <Image
               alt={title}
               src={`${config.host}${urlImage}`}
-              fill
+              sizes="100vw"
               style={{
+                width: "100%",
+                height: "auto",
                 borderRadius: "12px",
                 objectFit: "cover",
+                maxWidth: "280px",
+                maxHeight: "170px",
               }}
+              width={280}
+              height={170}
             />
           </Box>
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <Stack direction="column" alignItems="flex-start" spacing={2}>
             <Typography variant="h6" color="primary">
               {title}

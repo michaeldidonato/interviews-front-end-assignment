@@ -6,11 +6,11 @@ type SelectProps = {
   placeholder?: string;
   options: {
     title: string;
-    value: string;
+    value: string | number;
   }[];
   control: Control<any, any>;
   required?: boolean;
-  sx: SxProps;
+  sx?: SxProps;
 };
 
 export const Select = ({

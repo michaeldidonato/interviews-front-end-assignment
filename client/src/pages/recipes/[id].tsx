@@ -1,8 +1,11 @@
 import { apiClient } from "@/lib/api/apiClient";
 import SingleRecipe from "@/page-components/recipes/components/SingleRecipe";
-import { Recipe } from "@/page-components/recipes/types";
+import useSingleRecipeCommentsFetchAndSave from "@/page-components/recipes/hooks/useSingleRecipeFetchAndSave";
+import useSingleRecipeFetchAndSave from "@/page-components/recipes/hooks/useSingleRecipeFetchAndSave";
+import { Comment, Recipe } from "@/page-components/recipes/types";
 import { Layout } from "@/page-components/shared/Layout";
 import PageContainer from "@/page-components/shared/PageContainer";
+import useSpinning from "@/page-components/shared/hooks/useSpinning";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { ReactElement, useCallback, useEffect, useState } from "react";
@@ -14,26 +17,19 @@ type ViewRecipeProps = {
 const ViewRecipe: NextPage = ({ recipe }: ViewRecipeProps) => {
   const router = useRouter();
   const { id } = router.query;
-  const [comments, setComments] = useState<any[]>([]);
 
-  console.log({ recipe, comments });
+  const { loading, comments, fetchDataComments, handleSaveComment } =
+    useSingleRecipeCommentsFetchAndSave({ id: id as string });
 
   useEffect(() => {
-    const fetchDataComments = async () => {
-      try {
-        const response = await apiClient.getRecipeComments(id as string);
-        setComments(response.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchDataComments();
-  }, [id]);
+  }, [fetchDataComments]);
 
   const handleBack = useCallback(() => {
     router.push("/recipes");
   }, [router]);
+
+  useSpinning([loading]);
 
   return (
     <PageContainer title={recipe?.name} onBack={handleBack}>
@@ -42,6 +38,8 @@ const ViewRecipe: NextPage = ({ recipe }: ViewRecipeProps) => {
         srcImage={recipe?.image}
         ingredients={recipe?.ingredients}
         description={recipe?.instructions}
+        comments={comments}
+        handleSave={handleSaveComment}
       />
     </PageContainer>
   );

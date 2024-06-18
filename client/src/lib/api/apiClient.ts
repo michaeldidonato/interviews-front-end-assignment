@@ -48,6 +48,27 @@ class ApiClient {
     };
   }
 
+  async postRecipeComment(props: {
+    id: string;
+    comment: string;
+    rating: number;
+  }) {
+    const { id, comment, rating } = props;
+    const response = await fetch(`${this.host}/recipes/${id}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        comment,
+        rating,
+        date: new Date(),
+      }),
+    });
+
+    return response.ok;
+  }
+
   async getCuisines() {
     const response = await fetch(`${this.host}/cuisines`, {
       method: "GET",

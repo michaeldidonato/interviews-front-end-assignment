@@ -1,13 +1,18 @@
 import { config } from "@/lib/api/config";
-import { Box, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Rating, Typography } from "@mui/material";
 import Image from "next/image";
+import { Comment } from "../types";
+import { useForm } from "react-hook-form";
+import FormAddNewComment from "./FormAddNewComment";
+import { useCallback } from "react";
 
 type SingleRecipeProps = {
   srcImage?: string;
   alt?: string;
   ingredients?: string[];
   description?: string;
-  comments?: Record<string, any>[];
+  comments?: Comment[];
+  handleSave: (formData: { comment: string; rating: number }) => Promise<void>;
 };
 
 const SingleRecipe = ({
@@ -16,7 +21,22 @@ const SingleRecipe = ({
   description,
   ingredients,
   srcImage,
+  handleSave,
 }: SingleRecipeProps) => {
+  const { control, handleSubmit, setValue } = useForm<{
+    comment: string;
+    rating: number;
+  }>({
+    defaultValues: {
+      comment: "",
+      rating: 5,
+    },
+  });
+
+  const clearForm = useCallback(() => {
+    setValue("comment", ""), setValue("rating", 5);
+  }, [setValue]);
+
   return (
     <Grid container columnSpacing={2} rowSpacing={6}>
       <Grid item xs={12}>
@@ -56,6 +76,50 @@ const SingleRecipe = ({
         <Box sx={{ p: 2 }}>
           <Typography variant="body1">{description}</Typography>
         </Box>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography gutterBottom variant="h5">
+          User review
+        </Typography>
+
+        {comments?.map((comment) => (
+          <Box
+            key={comment.id}
+            sx={{
+              display: "flex",
+              justifyConent: "center",
+              alignItems: "center",
+              p: 1,
+            }}
+          >
+            <Box>
+              <Avatar sx={{ bgcolor: "red" }}>{`U${comment.id.substring(
+                0,
+                1
+              )}`}</Avatar>
+            </Box>
+
+            <Box sx={{ mx: 1 }}>
+              <Typography variant="h6">{`User ${comment.id}`}</Typography>
+              <Rating value={comment.rating} readOnly />
+              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                {comment.comment}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+      </Grid>
+
+      <Grid item xs={12}>
+        <form
+          onSubmit={handleSubmit(async (formData) => {
+            await handleSave(formData);
+            clearForm();
+          })}
+        >
+          <FormAddNewComment control={control} />
+        </form>
       </Grid>
     </Grid>
   );

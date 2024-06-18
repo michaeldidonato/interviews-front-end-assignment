@@ -65,7 +65,7 @@ const FormFilterRecipes = ({
         size="small"
         sx={{ width: "90%" }}
       >
-        Cerca
+        Search
       </Button>
 
       <Button
@@ -75,7 +75,7 @@ const FormFilterRecipes = ({
         size="small"
         sx={{ width: "90%" }}
       >
-        Pulisci campi
+        Clear form
       </Button>
     </Stack>
   );
