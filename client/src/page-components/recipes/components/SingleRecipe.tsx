@@ -50,8 +50,8 @@ const SingleRecipe = ({
               height: "auto",
               objectFit: "cover",
               borderRadius: "25px",
-              maxWidth: "1000px",
-              maxHeight: "700px",
+              maxWidth: "700px",
+              maxHeight: "500px",
             }}
             width={700}
             height={500}

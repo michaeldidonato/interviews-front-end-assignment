@@ -22,7 +22,7 @@ const background = {
 const divider = "#E6E8F0";
 
 const primary = {
-  main: "#5048E5",
+  main: "#ed6e3a",
   light: "#828DF8",
   dark: "#3832A0",
   contrastText: "#FFFFFF",

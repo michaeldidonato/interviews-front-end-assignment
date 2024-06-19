@@ -1,16 +1,10 @@
 import { CssBaseline, styled, ThemeProvider } from "@mui/material";
-import { Alert, Box, Snackbar } from "@mui/material";
-import Router from "next/router";
+import { Box } from "@mui/material";
 import PropTypes from "prop-types";
 import type { FC, ReactNode } from "react";
-import { useCallback, useEffect, useState } from "react";
 import { createTheme } from "../../../src/lib/theme/index";
-import { DashboardSidebar } from "./DashboardSidebar";
-import { DashboardNavbar } from "./DashboardNavbar";
 import { useLoadingContext } from "@/contexts/loading-context";
 import Spinner from "./Spinner";
-// import { DashboardNavbar } from "./dashboard-navbar";
-// import { DashboardSidebar } from "./dashboard-sidebar";
 
 export type DashboardLayoutProps = {
   children?: ReactNode;
@@ -36,8 +30,6 @@ export const Layout: FC<DashboardLayoutProps> = (props) => {
   const { children, themeMode } = props;
   const { loading } = useLoadingContext();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-
   return (
     <>
       {<Spinner loading={loading} />}
@@ -61,17 +53,6 @@ export const Layout: FC<DashboardLayoutProps> = (props) => {
             {children}
           </Box>
         </DashboardLayoutRoot>
-
-        {/* {!props.hideNavbar && (
-          <DashboardNavbar onOpenSidebar={(): void => setIsSidebarOpen(true)} />
-        )} */}
-
-        {/* {!props.hideSidebar && (
-          <DashboardSidebar
-            onClose={(): void => setIsSidebarOpen(false)}
-            open={isSidebarOpen}
-          />
-        )} */}
       </ThemeProvider>
     </>
   );
