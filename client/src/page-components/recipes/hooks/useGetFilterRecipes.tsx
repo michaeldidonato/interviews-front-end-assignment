@@ -6,7 +6,9 @@ import { apiClient } from "@/lib/api/apiClient";
 const useGetFilterRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState(false);
+  const limit = 10;
 
   const { handleSave } = useFilterQueryRecipes();
 
@@ -18,11 +20,21 @@ const useGetFilterRecipes = () => {
     [handleSave]
   );
 
+  const onLoadMore = useCallback(() => {
+    setPage((prevPage) => prevPage + 1);
+  }, []);
+
+  const onGoBack = useCallback(() => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  }, [page]);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await apiClient.getRecipes(query);
+        const response = await apiClient.getRecipes(query, limit, page);
         setRecipes(response.data);
       } catch (err) {
         console.error(err);
@@ -31,11 +43,15 @@ const useGetFilterRecipes = () => {
     };
 
     fetchData();
-  }, [query]);
+  }, [query, page]);
+
   return {
     loading,
     recipes,
+    limit,
     onSave,
+    onLoadMore,
+    onGoBack,
   };
 };
 

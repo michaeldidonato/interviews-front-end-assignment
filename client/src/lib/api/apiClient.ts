@@ -3,10 +3,13 @@ import { config } from "./config";
 class ApiClient {
   constructor(private host: string) {}
 
-  async getRecipes(query: string) {
-    const response = await fetch(`${this.host}/recipes?${query}`, {
-      method: "GET",
-    });
+  async getRecipes(query: string, limit: number, page: number) {
+    const response = await fetch(
+      `${this.host}/recipes?_limit=${limit}&_page=${page}&${query}`,
+      {
+        method: "GET",
+      }
+    );
 
     const data = await response.json();
 

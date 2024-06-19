@@ -1,7 +1,6 @@
 import { apiClient } from "@/lib/api/apiClient";
 import SingleRecipe from "@/page-components/recipes/components/SingleRecipe";
-import useSingleRecipeCommentsFetchAndSave from "@/page-components/recipes/hooks/useSingleRecipeFetchAndSave";
-import useSingleRecipeFetchAndSave from "@/page-components/recipes/hooks/useSingleRecipeFetchAndSave";
+import useSingleRecipeCommentsFetchAndSave from "@/page-components/recipes/hooks/useSingleRecipeCommentFetchAndSave";
 import { Comment, Recipe } from "@/page-components/recipes/types";
 import { Layout } from "@/page-components/shared/Layout";
 import PageContainer from "@/page-components/shared/PageContainer";

@@ -13,7 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import CardRecipe from "./CardRecipe";
 import { FormFilterRecipesType } from "../types";
 import { useCallback, useState } from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { AppBar, DrawerHeader, Main, drawerWidth } from "./DrawerComponents";
 import { useForm } from "react-hook-form";
 import FormFilterRecipes from "./FormFilterRecipes";
@@ -25,7 +25,8 @@ type RecipesComponent = {};
 const RecipesComponent = ({}: RecipesComponent) => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
-  const { loading, recipes, onSave } = useGetFilterRecipes();
+  const { loading, recipes, limit, onSave, onLoadMore, onGoBack } =
+    useGetFilterRecipes();
 
   const { handleSubmit, control, setValue } = useForm<FormFilterRecipesType>({
     defaultValues: {
@@ -127,6 +128,30 @@ const RecipesComponent = ({}: RecipesComponent) => {
             ))}
           </Grid>
         )}
+        <Box
+          sx={{
+            mt: 3,
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
+          <Button
+            onClick={onGoBack}
+            sx={{ mb: { xs: 1, sm: 0 } }}
+            variant="outlined"
+          >
+            Indietro
+          </Button>
+
+          <Button
+            onClick={onLoadMore}
+            variant="outlined"
+            disabled={recipes.length < limit}
+          >
+            Avanti
+          </Button>
+        </Box>
       </Main>
     </Box>
   );
